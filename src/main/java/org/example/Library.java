@@ -51,9 +51,26 @@ public class Library {
         int userInput = scanner.nextInt();
         switch(userInput){
             case 1:
-                System.out.println(Arrays.toString(commands.getVisitorCommands()));
+                visitor();
+                break;
             case 2:
-                System.out.println(Arrays.toString(commands.getAdminCommands()));
+                admin();
+                break;
+            default:
+                System.out.println("Invalid option. Please try again.");
         }
+    }
+
+    public void visitor(){
+        System.out.println(Arrays.toString(commands.getVisitorCommands()));
+        int userInput = scanner.nextInt();
+        switch(userInput){
+            case 1:
+                System.out.println(books);
+        }
+    }
+
+    public void admin(){
+        System.out.println(Arrays.toString(commands.getAdminCommands()));
     }
 }
