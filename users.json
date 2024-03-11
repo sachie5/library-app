@@ -1,0 +1,49 @@
+[
+  {
+    "name": "Dan l",
+    "username": "userOne",
+    "password": "password"
+  },
+  {
+    "name": "Sacha M",
+    "username": "userTwo",
+    "password": "password1"
+  },
+  {
+    "name": "May L",
+    "username": "userThree",
+    "password": "password3"
+  },
+  {
+    "name": "penny K",
+    "username": "userFour",
+    "password": "password4"
+  },
+  {
+    "name": "Don D",
+    "username": "userfive",
+    "password": "password5",
+    "loanedBooks": [
+      {
+        "id": 5,
+        "title": "Orientalism",
+        "author": "Said, Edward",
+        "genre": "nonfiction",
+        "subgenre": "history",
+        "publisher": "Penguin"
+      }
+    ]
+  },
+  {
+    "name": "Dan l",
+    "username": "userOne",
+    "password": "password",
+    "loanedBooks": []
+  },
+  {
+    "name": "Sacha M",
+    "username": "userTwo",
+    "password": "password2",
+    "loanedBooks": []
+  }
+]

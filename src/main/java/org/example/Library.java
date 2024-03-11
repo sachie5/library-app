@@ -4,6 +4,7 @@ import org.example.data.Commands;
 import org.json.JSONException;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -12,8 +13,10 @@ public class Library {
     private UserList userList = new UserList();
     private Commands commands = new Commands();
     private static Scanner scanner = new Scanner(System.in);
-    private String chosenBook;
+    private List <User> users = userList.getUsers();
+    private List<Book> chosenBook;
     private String typeOfVisitor;
+    private User loggedInUser;
     private ArrayList<Book> books = jsonLibrary.getListData();
     // by id of book
     private Map<Integer, Book> idBook = new HashMap<>();
@@ -56,63 +59,90 @@ public class Library {
         this.scanner = scanner;
     }
 
+    public List<Book> getChosenBook() {
+        return chosenBook;
+    }
+
+    public void setChosenBook(List<Book> chosenBook) {
+        this.chosenBook = chosenBook;
+    }
+
     public void openLibrary() throws JSONException, IOException {
         System.out.println("Welcome to the Library! Please select one of the following options.");
         jsonLibrary.createListOfBooks();
         System.out.println(Arrays.toString(commands.getEntryCommands()));
-        int userInput = scanner.nextInt();
-        switch(userInput){
-            case 1:
-                typeOfVisitor = "visitor";
-                visitor();
-                break;
-            case 2:
-                typeOfVisitor = "admin";
-                admin();
-                break;
-            case 3:
-                typeOfVisitor = "user";
-                memberLogin();
-                break;
-            default:
-                System.out.println("Invalid option. Please try again.");
+
+        try{
+            int userInput = scanner.nextInt();
+            switch(userInput){
+                case 1:
+                    typeOfVisitor = "visitor";
+                    visitor();
+                    break;
+                case 2:
+                    typeOfVisitor = "admin";
+                    admin();
+                    break;
+                case 3:
+                    typeOfVisitor = "user";
+                    memberLogin();
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    openLibrary();
+            }
+        } catch (InputMismatchException e){
+            System.out.println("Incorrect input. Please try again.");
+            scanner.nextLine();
+            openLibrary();
         }
+
     }
 
     public void visitor(){
         System.out.println(Arrays.toString(commands.getVisitorCommands()));
         int userInput = scanner.nextInt();
-        switch(userInput){
-            case 1:
-                System.out.println(books);
-                visitor();
-                break;
-            case 2:
-                findBooks();
-                break;
-            case 3:
-                userList.createUser();
-                memberLogin();
-                break;
-            case 4:
-                System.out.println(Arrays.toString(commands.getEntryCommands()));
-                break;
-            default:
-                System.out.println("Your input is invalid. Please try again.");
-        }
+            switch(userInput){
+                case 1:
+                    System.out.println(books);
+                    visitor();
+                    break;
+                case 2:
+                    findBooks();
+                    break;
+                case 3:
+                    userList.createUser();
+                    memberLogin();
+                    break;
+                case 4:
+                    System.out.println("Thank you for visiting!");
+                    scanner.close();
+                    break;
+                default:
+                    System.out.println("Your input is invalid. Please try again.");
+
+            }
     }
 
     public void memberLogin(){
-        List <User> users = userList.getUsers();
         String loginInput = scanner.nextLine();
-        System.out.println(users);
         System.out.println("Enter your username: ");
-        loginInput = scanner.nextLine();
-        if(users.contains(loginInput)){
-            int index = users.indexOf(loginInput);
-            System.out.println("Enter your password: ");
+        String loginUsername = scanner.nextLine();
+        System.out.println("Enter your password: ");
+        String loginPassword = scanner.nextLine();
+
+        User loginAttempt = new User();
+        loginAttempt.setUsername(loginUsername);
+        loginAttempt.setPassword(loginPassword);
+
+        if(users.contains(loginAttempt)){
+            int index = users.indexOf(loginAttempt);
+            loggedInUser = users.get(index);
+            System.out.println("Login successful. Welcome, " + loggedInUser.getName());
+            user();
         } else {
-            System.out.println("That doesn't match our system. Please try again.");
+            System.out.println("Invalid username or password. Please try again.");
+            memberLogin();
         }
     }
 
@@ -127,7 +157,8 @@ public class Library {
                 findBooks();
                 break;
             case 3:
-                System.out.println(Arrays.toString(commands.getEntryCommands()));
+                System.out.println("Thank you for visiting!");
+                scanner.close();
                 break;
             default:
                 System.out.println("Your input is invalid. Please try again.");
@@ -142,7 +173,7 @@ public class Library {
     public void findBooks(){
         System.out.println("Please enter the title of the book you would like to borrow.");
         String userInput = scanner.next();
-        chosenBook = books.stream().filter(book -> book.getTitle().toLowerCase().equals(userInput.toLowerCase())).collect(Collectors.toList()).toString();
+        chosenBook = books.stream().filter(book -> book.getTitle().toLowerCase().equals(userInput.toLowerCase())).collect(Collectors.toList());
         switch(typeOfVisitor){
             case "visitor":
                 readBook();
@@ -171,9 +202,19 @@ public class Library {
         System.out.println("Is this the book you would like to borrow? Y/N");
         String userInput = scanner.next();
         if(userInput.toLowerCase().equals("y")){
-            System.out.println("You have now loaned " + chosenBook + ".");
+            if(!loggedInUser.getLoanedBooks().contains(chosenBook)){
+                userList.saveLoanBookToJson(chosenBook.get(0), "users.json", loggedInUser.username);
+            } else {
+
+            }
         } else if(userInput.toLowerCase().equals("n")){
-            System.out.println();
+            System.out.println("Would you like to read the book? Y/N");
+            userInput = scanner.next();
+            if(userInput.toLowerCase().equals("y")){
+                readBook();
+            } else {
+                user();;
+            }
         }
     }
 }
