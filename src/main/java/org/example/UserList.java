@@ -1,0 +1,88 @@
+package org.example;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class UserList {
+    private List<User> users;
+    private final Gson gson;
+
+    private Scanner scanner = new Scanner(System.in);
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public UserList() {
+        gson = new GsonBuilder().setPrettyPrinting().create();
+        users = usersFromJson("users.json");
+    }
+
+    public void createUser(){
+        User newUser = new User();
+        String userInput;
+        System.out.println("Enter the name of the member you would like to use: ");
+        userInput = scanner.nextLine();
+        newUser.setName(userInput);
+
+        System.out.println("Enter the username you would like to use: ");
+        userInput = scanner.nextLine();
+        newUser.setUsername(userInput);
+
+        System.out.println("Enter the password you would like to use: ");
+        userInput = scanner.nextLine();
+        newUser.setPassword(userInput);
+
+        users.add(newUser);
+
+        String userJson = gson.toJson(newUser);
+        saveToJsonFile("users.json");
+        System.out.println("Your user profile has been created. Welcome, " + newUser.username);
+
+    }
+
+    public void saveToJsonFile(String fileName){
+        try {
+            File file = new File(fileName);
+
+            if(!file.exists()){
+                file.createNewFile();
+            }
+
+            try(FileWriter writer = new FileWriter(file)){
+                String usersJson = gson.toJson(users);
+                writer.write(usersJson);
+            }
+        } catch (IOException e){
+            System.out.println("Error saving member to file: " + e.getMessage());
+        }
+    }
+
+    public List<User> usersFromJson(String fileName){
+        List <User> users = new ArrayList<>();
+        try {
+            File file = new File(fileName);
+
+            if(file.exists()){
+                try (FileReader reader = new FileReader(file)){
+                    users = gson.fromJson(reader, List.class);
+                }
+            }
+        } catch (IOException e){
+            System.err.println("Error loading information from file: " + e.getMessage());
+        }
+        return users;
+    }
+}

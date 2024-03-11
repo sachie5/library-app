@@ -8,12 +8,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Library {
-    JsonLibrary jsonLibrary = new JsonLibrary();
-    Commands commands = new Commands();
-    Scanner scanner = new Scanner(System.in);
-    String chosenBook;
-
-    String typeOfVisitor;
+    private JsonLibrary jsonLibrary = new JsonLibrary();
+    private UserList userList = new UserList();
+    private Commands commands = new Commands();
+    private static Scanner scanner = new Scanner(System.in);
+    private String chosenBook;
+    private String typeOfVisitor;
     private ArrayList<Book> books = jsonLibrary.getListData();
     // by id of book
     private Map<Integer, Book> idBook = new HashMap<>();
@@ -48,6 +48,14 @@ public class Library {
         books.add(book);
     }
 
+    public Scanner getScanner() {
+        return scanner;
+    }
+
+    public void setScanner(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
     public void openLibrary() throws JSONException, IOException {
         System.out.println("Welcome to the Library! Please select one of the following options.");
         jsonLibrary.createListOfBooks();
@@ -64,7 +72,8 @@ public class Library {
                 break;
             case 3:
                 typeOfVisitor = "user";
-                user();
+                memberLogin();
+                break;
             default:
                 System.out.println("Invalid option. Please try again.");
         }
@@ -82,12 +91,31 @@ public class Library {
                 findBooks();
                 break;
             case 3:
+                userList.createUser();
+                memberLogin();
+                break;
+            case 4:
                 System.out.println(Arrays.toString(commands.getEntryCommands()));
                 break;
             default:
                 System.out.println("Your input is invalid. Please try again.");
         }
     }
+
+    public void memberLogin(){
+        List <User> users = userList.getUsers();
+        String loginInput = scanner.nextLine();
+        System.out.println(users);
+        System.out.println("Enter your username: ");
+        loginInput = scanner.nextLine();
+        if(users.contains(loginInput)){
+            int index = users.indexOf(loginInput);
+            System.out.println("Enter your password: ");
+        } else {
+            System.out.println("That doesn't match our system. Please try again.");
+        }
+    }
+
     public void user(){
         System.out.println(Arrays.toString(commands.getUserCommands()));
         int userInput = scanner.nextInt();
@@ -109,6 +137,7 @@ public class Library {
     public void admin(){
         System.out.println(Arrays.toString(commands.getAdminCommands()));
     }
+
 
     public void findBooks(){
         System.out.println("Please enter the title of the book you would like to borrow.");

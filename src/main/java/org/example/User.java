@@ -1,6 +1,8 @@
 package org.example;
 
-import java.util.Scanner;
+import com.google.gson.Gson;
+
+import java.io.FileWriter;
 
 public class User {
     String name;
@@ -29,6 +31,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public User() {
+
     }
 
     public User(String name, String username, String password) {
