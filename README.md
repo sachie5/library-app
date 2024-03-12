@@ -9,7 +9,7 @@ This project is a library management system built using Java.
 3.  Member Functionality
 4.  Admin Functionality
 
-## 1. About:
+## 1. About
 
 This system is a console application the allows the user to see information about the books depending on status. the three types of users are:
 
