@@ -38,4 +38,13 @@ public class Admin {
 
     public Admin() {
     }
+
+    @Override
+    public String toString() {
+        return "Admin -" +
+                "Name: " + name +
+                ", Username: " + username +
+                ", Password: " + password +
+                " .";
+    }
 }

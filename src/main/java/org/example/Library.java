@@ -246,6 +246,7 @@ public class Library {
         User loginAttempt = new User();
         loginAttempt.setUsername(loginUsername);
         loginAttempt.setPassword(loginPassword);
+        System.out.println(loginAttempt);
 
         if(users.contains(loginAttempt)){
             int index = users.indexOf(loginAttempt);
@@ -270,15 +271,17 @@ public class Library {
         loginAttempt.setUsername(loginUsername);
         loginAttempt.setPassword(loginPassword);
 
-        if(admins.contains(loginAttempt)){
-            int index = admins.indexOf(loginAttempt);
-            loggedInAdmin = admins.get(index);
-            System.out.println("Login successful. Welcome, " + loggedInAdmin);
-            admin();
-        } else {
-            System.out.println("Invalid username or password. Please try again.");
-            adminLogin();
+        for(Admin adminMember : admins){
+            if(adminMember.username.equals(loginAttempt.username) && adminMember.password.equals(loginAttempt.password)){
+                loggedInAdmin = adminMember;
+                System.out.println("Login successful. Welcome, " + loggedInAdmin.name);
+                admin();
+            } else {
+                System.out.println("Invalid username or password. Please try again.");
+                adminLogin();
+            }
         }
+
     }
 
     private void runLoanReport() {
