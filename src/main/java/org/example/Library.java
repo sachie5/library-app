@@ -15,12 +15,11 @@ public class Library {
     private Commands commands = new Commands();
     private static Scanner scanner = new Scanner(System.in);
     private List <User> users = userList.getUsers();
-    private List <Admin> admins = adminList.getAdmins();
+    private List <Admin> admins;
     private List<Book> chosenBook;
     private String typeOfVisitor;
     private User loggedInUser;
     private Admin loggedInAdmin;
-//    private List<Book> loanedOutBooks;
     private ArrayList<Book> books = jsonLibrary.getListData();
     // by id of book
 //    private Map<Integer, Book> idBook = new HashMap<>();
@@ -82,7 +81,7 @@ public class Library {
     public void openLibrary() throws JSONException, IOException {
         System.out.println("Welcome to the Library! Please select one of the following options.");
         jsonLibrary.createListOfBooks();
-        adminList.adminFromJson();
+        admins = adminList.getAdmins();
         System.out.println(Arrays.toString(commands.getEntryCommands()));
 
         try{

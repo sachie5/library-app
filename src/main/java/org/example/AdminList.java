@@ -15,7 +15,7 @@ import java.util.Scanner;
 
 public class AdminList {
 
-    private List<Admin> admins;
+    private List<Admin> admins = new ArrayList<>();
     private Gson gson;
     private Scanner scanner = new Scanner(System.in);
     public List<Admin> getAdmins() {
@@ -25,6 +25,9 @@ public class AdminList {
     public AdminList(){
         gson = new GsonBuilder().setPrettyPrinting().create();
         admins = adminFromJson();
+        if(admins == null){
+            admins = new ArrayList<>();
+        }
     }
 
     public void saveToJsonFile(String fileName) {
@@ -44,9 +47,8 @@ public class AdminList {
     }
 
     protected List<Admin> adminFromJson() {
-        List<Admin> admins = new ArrayList<>();
         Admin newAdmin = new Admin("Sacha M", "admin1", "Adminpass1");
-        admins.add(new Admin());
+        admins.add(newAdmin);
         saveToJsonFile("admin.json");
         File file = new File("admin.json");
 
