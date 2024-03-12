@@ -4,11 +4,10 @@ This project is a library management system built using Java.
 
 ## Table of Contents
 
-1. About
-2. Visitor Functionality
-3. Member Functionality
-4. Admin Functionality
-5. Key Code
+1.  About
+2.  Visitor Functionality
+3.  Member Functionality
+4.  Admin Functionality
 
 ## 1. About:
 
