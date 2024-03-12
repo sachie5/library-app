@@ -1,36 +1,16 @@
 [
   {
-    "name": "Dan l",
-    "username": "userOne",
-    "password": "password"
-  },
-  {
-    "name": "Sacha M",
-    "username": "userTwo",
-    "password": "password1"
-  },
-  {
-    "name": "May L",
-    "username": "userThree",
-    "password": "password3"
-  },
-  {
-    "name": "penny K",
-    "username": "userFour",
-    "password": "password4"
-  },
-  {
     "name": "Don D",
     "username": "userfive",
     "password": "password5",
     "loanedBooks": [
       {
-        "id": 5,
-        "title": "Orientalism",
-        "author": "Said, Edward",
-        "genre": "nonfiction",
-        "subgenre": "history",
-        "publisher": "Penguin"
+        "id": 1,
+        "title": "Fundamentals of Wavelets",
+        "author": "Goswami, Jaideva",
+        "genre": "tech",
+        "subgenre": "signal_processing",
+        "publisher": "Wiley"
       }
     ]
   },
@@ -38,7 +18,16 @@
     "name": "Dan l",
     "username": "userOne",
     "password": "password",
-    "loanedBooks": []
+    "loanedBooks": [
+      {
+        "id": 2,
+        "title": "Data Smart",
+        "author": "Foreman, John",
+        "genre": "tech",
+        "subgenre": "data_science",
+        "publisher": "Wiley"
+      }
+    ]
   },
   {
     "name": "Sacha M",

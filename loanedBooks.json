@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "title": "Fundamentals of Wavelets",
+    "author": "Goswami, Jaideva",
+    "genre": "tech",
+    "subgenre": "signal_processing",
+    "publisher": "Wiley"
+  },
+  {
+    "id": 2,
+    "title": "Data Smart",
+    "author": "Foreman, John",
+    "genre": "tech",
+    "subgenre": "data_science",
+    "publisher": "Wiley"
+  }
+]

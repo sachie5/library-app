@@ -11,21 +11,15 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 
 public class UserList {
     private List<User> users;
     private final Gson gson;
-    private Library library;
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public List<User> getUsers() {
         return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
     }
 
     public UserList() {
@@ -33,7 +27,7 @@ public class UserList {
         users = usersFromJson("users.json");
     }
 
-    public void createUser(){
+    public void createUser() {
         User newUser = new User();
         String userInput;
         System.out.println("Enter the name of the member you would like to use: ");
@@ -56,54 +50,62 @@ public class UserList {
 
     }
 
-    public void saveToJsonFile(String fileName){
+    public void saveToJsonFile(String fileName) {
         try {
             File file = new File(fileName);
-
-            if(!file.exists()){
+            if (!file.exists()) {
                 file.createNewFile();
             }
 
-            try(FileWriter writer = new FileWriter(file)){
+            try (FileWriter writer = new FileWriter(file)) {
                 String usersJson = gson.toJson(users);
                 writer.write(usersJson);
             }
-        } catch (IOException e){
+        } catch (IOException e) {
             System.out.println("Error saving member to file: " + e.getMessage());
         }
     }
 
-    public List<User> usersFromJson(String fileName){
-        List <User> users = null;
+    public List<User> usersFromJson(String fileName) {
+        List<User> users = null;
+        File file = new File(fileName);
 
-            File file = new File(fileName);
-
-            if(file.exists()){
-                try (FileReader reader = new FileReader(file)){
-                    Type listType = new TypeToken<List<User>>() {}.getType();
-                    users = gson.fromJson(reader, listType);
-                }catch (IOException e){
-                    System.err.println("Error loading information from file: " + e.getMessage());
-                }
+        if (file.exists()) {
+            try (FileReader reader = new FileReader(file)) {
+                Type listType = new TypeToken<List<User>>() {
+                }.getType();
+                users = gson.fromJson(reader, listType);
+            } catch (IOException e) {
+                System.err.println("Error loading information from file: " + e.getMessage());
             }
+        }
         return users;
     }
 
-    public void saveLoanBookToJson(Book loanedBook, String filename, String username){
+    public void saveLoanBookToJson(Book loanedBook, String filename, String username) {
 
         File file = new File(filename);
-        List<User> users = usersFromJson(filename);
-        User currentUser = null;
-        for (User user: users){
-            if(user.username.equals(username)){
-                currentUser = user;
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.err.println("Sorry. this file can't be created:" + e.getMessage());
             }
         }
 
-        if(currentUser != null) {
+        List<User> users = usersFromJson(filename);
+        User currentUser = null;
+        if (users != null && !users.isEmpty()) {
+            for (User user : users) {
+                if (user.username.equals(username)) {
+                    currentUser = user;
+                }
+            }
+        }
+
+        if (currentUser != null) {
             List<Book> loanedBooks = currentUser.getLoanedBooks();
             loanedBooks.add(loanedBook);
-
 
             try (FileWriter writer = new FileWriter(file)) {
                 String usersJson = gson.toJson(users);
@@ -116,4 +118,9 @@ public class UserList {
             System.out.println("User with username: " + username + " not found.");
         }
     }
+
 }
+
+
+
+
