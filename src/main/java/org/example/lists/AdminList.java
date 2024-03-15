@@ -1,8 +1,9 @@
-package org.example;
+package org.example.lists;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.example.user.Admin;
 
 import java.io.File;
 import java.io.FileReader;
@@ -42,25 +43,8 @@ public class AdminList {
                 writer.write(adminJson);
             }
         } catch (IOException e) {
-            System.out.println("Error saving member to file: " + e.getMessage());
+            System.out.println("Error saving admin to file: " + e.getMessage());
         }
-    }
-
-    protected List<Admin> adminFromJson() {
-        Admin newAdmin = new Admin("Sacha M", "admin1", "Adminpass1");
-        admins.add(newAdmin);
-        saveToJsonFile("admin.json");
-        File file = new File("admin.json");
-
-        if(file.exists()){
-            try(FileReader reader = new FileReader(file)){
-                Type listType = new TypeToken<List<Admin>>() { }.getType();
-                admins = gson.fromJson(reader, listType);
-            } catch (IOException e){
-                System.err.println("Error loading information from file: " + e.getMessage());
-            }
-        }
-        return admins;
     }
 
     public void createAdmin() {
@@ -80,8 +64,26 @@ public class AdminList {
 
         admins.add(newAdmin);
         String userJson = gson.toJson(newAdmin);
-        saveToJsonFile("admin.json");
-        System.out.println("Your user profile has been created. Welcome, " + newAdmin.username);
+        saveToJsonFile("C:\\Users\\winni\\Development\\nology\\projects\\java-library-app\\src\\main\\java\\org\\example\\data\\admin.json");
+        System.out.println("Your user profile has been created. Welcome, " + newAdmin.getUsername());
 
     }
+
+    protected List<Admin> adminFromJson() {
+        Admin newAdmin = new Admin("Sacha M", "admin1", "Adminpass1");
+        admins.add(newAdmin);
+        saveToJsonFile("data/admin.json");
+        File file = new File("C:\\Users\\winni\\Development\\nology\\projects\\java-library-app\\src\\main\\java\\org\\example\\data\\admin.json");
+
+        if(file.exists()){
+            try(FileReader reader = new FileReader(file)){
+                Type listType = new TypeToken<List<Admin>>() { }.getType();
+                admins = gson.fromJson(reader, listType);
+            } catch (IOException e){
+                System.err.println("Error loading information from file: " + e.getMessage());
+            }
+        }
+        return admins;
+    }
+
 }

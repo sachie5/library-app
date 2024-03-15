@@ -1,12 +1,11 @@
-package org.example;
+package org.example.user;
 
-import com.google.gson.Gson;
+import org.example.Book;
 
-import java.io.FileWriter;
 import java.util.List;
 import java.util.Objects;
 
-public class User {
+public class Member {
     String name;
     String username;
     String password;
@@ -45,11 +44,11 @@ public class User {
         this.loanedBooks = loanedBooks;
     }
 
-    public User() {
+    public Member() {
 
     }
 
-    public User(String name, String username, String password) {
+    public Member(String name, String username, String password) {
         this.name = name;
         this.username = username;
         this.password = password;
@@ -57,7 +56,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User - " +
+        return "Member - " +
                 "Name: " + name +
                 ", Username: " + username +
                 ", Password: " + password +
@@ -68,8 +67,8 @@ public class User {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(username, user.username) && Objects.equals(password, user.password);
+        Member member = (Member) o;
+        return Objects.equals(username, member.username) && Objects.equals(password, member.password);
     }
 
 }

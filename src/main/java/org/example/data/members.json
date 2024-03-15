@@ -1,0 +1,78 @@
+[
+  {
+    "name": "Don D",
+    "username": "userfive",
+    "password": "password5",
+    "loanedBooks": [
+      {
+        "id": 1,
+        "title": "Fundamentals of Wavelets",
+        "author": "Goswami, Jaideva",
+        "genre": "tech",
+        "subgenre": "signal_processing",
+        "publisher": "Wiley"
+      }
+    ]
+  },
+  {
+    "name": "Dan l",
+    "username": "userOne",
+    "password": "password",
+    "loanedBooks": [
+      {
+        "id": 2,
+        "title": "Data Smart",
+        "author": "Foreman, John",
+        "genre": "tech",
+        "subgenre": "data_science",
+        "publisher": "Wiley"
+      },
+      {
+        "id": 5,
+        "title": "Orientalism",
+        "author": "Said, Edward",
+        "genre": "nonfiction",
+        "subgenre": "history",
+        "publisher": "Penguin"
+      },
+      {
+        "id": 6,
+        "title": "Nature of Statistical Learning Theory, The",
+        "author": "Vapnik, Vladimir",
+        "genre": "tech",
+        "subgenre": "data_science",
+        "publisher": "Springer"
+      },
+      {
+        "id": 6,
+        "title": "Nature of Statistical Learning Theory, The",
+        "author": "Vapnik, Vladimir",
+        "genre": "tech",
+        "subgenre": "data_science",
+        "publisher": "Springer"
+      },
+      {
+        "id": 10,
+        "title": "How to Think Like Sherlock Holmes",
+        "author": "Konnikova, Maria",
+        "genre": "nonfiction",
+        "subgenre": "psychology",
+        "publisher": "Penguin"
+      },
+      {
+        "id": 6,
+        "title": "Nature of Statistical Learning Theory, The",
+        "author": "Vapnik, Vladimir",
+        "genre": "tech",
+        "subgenre": "data_science",
+        "publisher": "Springer"
+      }
+    ]
+  },
+  {
+    "name": "Sacha M",
+    "username": "userTwo",
+    "password": "password2",
+    "loanedBooks": []
+  }
+]

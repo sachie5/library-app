@@ -1,8 +1,11 @@
-package org.example;
+package org.example.lists;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
+import org.example.Book;
+import org.example.user.Member;
+import org.h2.engine.User;
 
 import java.io.File;
 import java.io.FileReader;
@@ -13,22 +16,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class UserList {
-    private List<User> users;
+public class MemberList {
+    private List<Member> members;
     private final Gson gson;
     private final Scanner scanner = new Scanner(System.in);
 
-    public List<User> getUsers() {
-        return users;
+    public List<Member> getMembers() {
+        return members;
     }
 
-    public UserList() {
+    public MemberList() {
         gson = new GsonBuilder().setPrettyPrinting().create();
-        users = usersFromJson("users.json");
+        members = usersFromJson("C:\\Users\\winni\\Development\\nology\\projects\\java-library-app\\src\\main\\java\\org\\example\\data\\members.json");
     }
 
     public void createUser() {
-        User newUser = new User();
+        Member newUser = new Member();
         String userInput;
         System.out.println("Enter the name of the member you would like to use: ");
         userInput = scanner.nextLine();
@@ -43,10 +46,10 @@ public class UserList {
         newUser.setPassword(userInput);
         newUser.setLoanedBooks(new ArrayList<>());
 
-        users.add(newUser);
+        members.add(newUser);
         String userJson = gson.toJson(newUser);
-        saveToJsonFile("users.json");
-        System.out.println("Your user profile has been created. Welcome, " + newUser.username);
+        saveToJsonFile("C:\\Users\\winni\\Development\\nology\\projects\\java-library-app\\src\\main\\java\\org\\example\\data\\members.json");
+        System.out.println("Your user profile has been created. Welcome, " + newUser.getUsername());
 
     }
 
@@ -58,7 +61,7 @@ public class UserList {
             }
 
             try (FileWriter writer = new FileWriter(file)) {
-                String usersJson = gson.toJson(users);
+                String usersJson = gson.toJson(members);
                 writer.write(usersJson);
             }
         } catch (IOException e) {
@@ -66,13 +69,13 @@ public class UserList {
         }
     }
 
-    public List<User> usersFromJson(String fileName) {
-        List<User> users = null;
+    public List<Member> usersFromJson(String fileName) {
+        List<Member> users = null;
         File file = new File(fileName);
 
         if (file.exists()) {
             try (FileReader reader = new FileReader(file)) {
-                Type listType = new TypeToken<List<User>>() {
+                Type listType = new TypeToken<List<Member>>() {
                 }.getType();
                 users = gson.fromJson(reader, listType);
             } catch (IOException e) {
@@ -82,9 +85,9 @@ public class UserList {
         return users;
     }
 
-    public void saveLoanBookToJson(Book loanedBook, String filename, String username) {
+    public void saveLoanBookToJson(Book loanedBook, String username) {
 
-        File file = new File(filename);
+        File file = new File("C:\\Users\\winni\\Development\\nology\\projects\\java-library-app\\src\\main\\java\\org\\example\\data\\members.json");
         if (!file.exists()) {
             try {
                 file.createNewFile();
@@ -93,12 +96,12 @@ public class UserList {
             }
         }
 
-        List<User> users = usersFromJson(filename);
-        User currentUser = null;
+        List<Member> users = usersFromJson("C:\\Users\\winni\\Development\\nology\\projects\\java-library-app\\src\\main\\java\\org\\example\\data\\members.json");
+        Member currentUser = null;
         if (users != null && !users.isEmpty()) {
-            for (User user : users) {
-                if (user.username.equals(username)) {
-                    currentUser = user;
+            for (Member member : users) {
+                if (member.getUsername().equals(username)) {
+                    currentUser = member;
                 }
             }
         }
@@ -120,7 +123,3 @@ public class UserList {
     }
 
 }
-
-
-
-

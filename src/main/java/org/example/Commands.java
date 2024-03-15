@@ -1,4 +1,4 @@
-package org.example.data;
+package org.example;
 
 public class Commands {
     private static final String[] entryCommands = new String[] {"1: Visitor", "2: Admin", "3: Member"};

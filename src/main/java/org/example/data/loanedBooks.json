@@ -14,5 +14,13 @@
     "genre": "tech",
     "subgenre": "data_science",
     "publisher": "Wiley"
+  },
+  {
+    "id": 6,
+    "title": "Nature of Statistical Learning Theory, The",
+    "author": "Vapnik, Vladimir",
+    "genre": "tech",
+    "subgenre": "data_science",
+    "publisher": "Springer"
   }
 ]

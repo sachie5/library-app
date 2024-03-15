@@ -1,6 +1,10 @@
 package org.example;
 
-import org.example.data.Commands;
+import org.example.lists.AdminList;
+import org.example.lists.LoanedBooksList;
+import org.example.lists.MemberList;
+import org.example.user.Admin;
+import org.example.user.Member;
 import org.json.JSONException;
 
 import java.io.IOException;
@@ -9,74 +13,19 @@ import java.util.stream.Collectors;
 
 public class Library {
     private JsonLibrary jsonLibrary = new JsonLibrary();
-    private UserList userList = new UserList();
+    private MemberList memberList = new MemberList();
     private AdminList adminList = new AdminList();
     private LoanedBooksList loanedBooksList = new LoanedBooksList();
     private Commands commands = new Commands();
     private static Scanner scanner = new Scanner(System.in);
-    private List <User> users = userList.getUsers();
+    private List <Member> members = memberList.getMembers();
+    private List<Book> loanedBooks = loanedBooksList.getLoanedBooks();
     private List <Admin> admins;
     private List<Book> chosenBook;
     private String typeOfVisitor;
-    private User loggedInUser;
+    private Member loggedInMember;
     private Admin loggedInAdmin;
     private ArrayList<Book> books = jsonLibrary.getListData();
-    // by id of book
-//    private Map<Integer, Book> idBook = new HashMap<>();
-//    // by name of author
-//    private Map<String, List<Book>> authorBook = new HashMap<>();
-
-//    public ArrayList<Book> getBooks() {
-//        return books;
-//    }
-//
-//    public void setBooks(ArrayList<Book> books) {
-//        this.books = books;
-//    }
-//
-//    public Map<Integer, Book> getIdBook() {
-//        return idBook;
-//    }
-//
-//    public void setIdBook(Map<Integer, Book> idBook) {
-//        this.idBook = idBook;
-//    }
-//
-//    public Map<String, List<Book>> getAuthorBook() {
-//        return authorBook;
-//    }
-//
-//    public void setAuthorBook(Map<String, List<Book>> authorBook) {
-//        this.authorBook = authorBook;
-//    }
-//
-//    public void addBook(Book book){
-//        books.add(book);
-//    }
-//
-//    public Scanner getScanner() {
-//        return scanner;
-//    }
-//
-//    public void setScanner(Scanner scanner) {
-//        this.scanner = scanner;
-//    }
-//
-//    public List<Book> getChosenBook() {
-//        return chosenBook;
-//    }
-//
-//    public void setChosenBook(List<Book> chosenBook) {
-//        this.chosenBook = chosenBook;
-//    }
-//
-//    public List<Book> getLoanedOutBooks() {
-//        return loanedOutBooks;
-//    }
-//
-//    public void setLoanedOutBooks(List<Book> loanedOutBooks) {
-//        this.loanedOutBooks = loanedOutBooks;
-//    }
 
     public void openLibrary() throws JSONException, IOException {
         System.out.println("Welcome to the Library! Please select one of the following options.");
@@ -96,7 +45,7 @@ public class Library {
                     adminLogin();
                     break;
                 case 3:
-                    typeOfVisitor = "user";
+                    typeOfVisitor = "member";
                     memberLogin();
                     break;
                 default:
@@ -123,7 +72,7 @@ public class Library {
                     findBooks();
                     break;
                 case 3:
-                    userList.createUser();
+                    memberList.createUser();
                     memberLogin();
                     break;
                 case 4:
@@ -137,13 +86,13 @@ public class Library {
     }
 
 
-    public void user(){
+    public void member(){
         System.out.println(Arrays.toString(commands.getUserCommands()));
         int userInput = scanner.nextInt();
         switch(userInput){
             case 1:
                 System.out.println(books);
-                user();
+                member();
                 break;
             case 2:
                 findBooks();
@@ -195,7 +144,7 @@ public class Library {
                 break;
             case "admin":
                 break;
-            case "user":
+            case "member":
                 System.out.println(chosenBook);
                 loanBooks();
                 break;
@@ -213,14 +162,17 @@ public class Library {
             System.out.println();
         }
     }
+
     public void loanBooks(){
         System.out.println("Is this the book you would like to borrow? Y/N");
         String userInput = scanner.next();
         if(userInput.equalsIgnoreCase("y")){
-            if(!loggedInUser.getLoanedBooks().contains(chosenBook)){
-                userList.saveLoanBookToJson(chosenBook.get(0), "users.json", loggedInUser.username);
+            if(!loggedInMember.getLoanedBooks().equals(chosenBook)){
+                System.out.println(chosenBook.get(0));
+                System.out.println(loggedInMember.getUsername());
+                memberList.saveLoanBookToJson(chosenBook.get(0), loggedInMember.getUsername());
                 loanedBooksList.saveLoanBookToJson(chosenBook.get(0));
-                user();
+                member();
             } else {
                 System.out.println("Sorry. You already have this book.");
                 findBooks();
@@ -231,33 +183,40 @@ public class Library {
             if(userInput.equalsIgnoreCase("y")){
                 readBook();
             } else {
-                user();
+                member();
             }
         }
     }
 
-    public void memberLogin(){
-        String loginInput = scanner.nextLine();
+    public void memberLogin() {
+        scanner.nextLine();
         System.out.println("Enter your username: ");
         String loginUsername = scanner.nextLine();
         System.out.println("Enter your password: ");
         String loginPassword = scanner.nextLine();
 
-        User loginAttempt = new User();
+        Member loginAttempt = new Member();
         loginAttempt.setUsername(loginUsername);
         loginAttempt.setPassword(loginPassword);
-        System.out.println(loginAttempt);
 
-        if(users.contains(loginAttempt)){
-            int index = users.indexOf(loginAttempt);
-            loggedInUser = users.get(index);
-            System.out.println("Login successful. Welcome, " + loggedInUser.getName());
-            user();
-        } else {
-            System.out.println("Invalid username or password. Please try again.");
-            memberLogin();
+        try {
+            if (members.contains(loginAttempt)) {
+                int index = members.indexOf(loginAttempt);
+                loggedInMember = members.get(index);
+                System.out.println("Login successful. Welcome, " + loggedInMember.getName());
+                member();
+            } else {
+                System.out.println(loggedInMember);
+                System.out.println(members);
+                System.out.println("Invalid username or password. Please try again.");
+                memberLogin();
+
+            }
+        } catch (NullPointerException e) {
+            System.out.println("There are no members registered.");
         }
     }
+
 
 
     private void adminLogin() {
@@ -271,21 +230,24 @@ public class Library {
         loginAttempt.setUsername(loginUsername);
         loginAttempt.setPassword(loginPassword);
 
-        for(Admin adminMember : admins){
-            if(adminMember.username.equals(loginAttempt.username) && adminMember.password.equals(loginAttempt.password)){
-                loggedInAdmin = adminMember;
-                System.out.println("Login successful. Welcome, " + loggedInAdmin.name);
+        try {
+            if (admins.contains(loginAttempt)) {
+                int index = admins.indexOf(loginAttempt);
+                loggedInAdmin = admins.get(index);
+                System.out.println("Login successful. Welcome, " + loggedInAdmin.getName());
                 admin();
             } else {
+                System.out.println(loginAttempt);
                 System.out.println("Invalid username or password. Please try again.");
                 adminLogin();
             }
+        } catch (NullPointerException e) {
+            System.out.println("There are no admins registered.");
         }
-
     }
 
     private void runLoanReport() {
-        System.out.println(loanedBooksList);
+        System.out.println(loanedBooks);
         admin();
     }
 }
