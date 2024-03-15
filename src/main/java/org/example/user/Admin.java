@@ -45,6 +45,6 @@ public class Admin {
                 "Name: " + name +
                 ", Username: " + username +
                 ", Password: " + password +
-                " .";
+                ".";
     }
 }

@@ -20,7 +20,7 @@ public class Library {
     private static Scanner scanner = new Scanner(System.in);
     private List <Member> members = memberList.getMembers();
     private List<Book> loanedBooks = loanedBooksList.getLoanedBooks();
-    private List <Admin> admins;
+    private List <Admin> admins = adminList.getAdmins();
     private List<Book> chosenBook;
     private String typeOfVisitor;
     private Member loggedInMember;
@@ -30,7 +30,6 @@ public class Library {
     public void openLibrary() throws JSONException, IOException {
         System.out.println("Welcome to the Library! Please select one of the following options.");
         jsonLibrary.createListOfBooks();
-        admins = adminList.getAdmins();
         System.out.println(Arrays.toString(commands.getEntryCommands()));
 
         try{
@@ -203,14 +202,12 @@ public class Library {
             if (members.contains(loginAttempt)) {
                 int index = members.indexOf(loginAttempt);
                 loggedInMember = members.get(index);
+                System.out.println(loginAttempt);
                 System.out.println("Login successful. Welcome, " + loggedInMember.getName());
                 member();
             } else {
-                System.out.println(loggedInMember);
-                System.out.println(members);
                 System.out.println("Invalid username or password. Please try again.");
                 memberLogin();
-
             }
         } catch (NullPointerException e) {
             System.out.println("There are no members registered.");
@@ -220,7 +217,7 @@ public class Library {
 
 
     private void adminLogin() {
-        String loginInput = scanner.nextLine();
+        scanner.nextLine();
         System.out.println("Enter your username: ");
         String loginUsername = scanner.nextLine();
         System.out.println("Enter your password: ");
@@ -231,16 +228,18 @@ public class Library {
         loginAttempt.setPassword(loginPassword);
 
         try {
-            if (admins.contains(loginAttempt)) {
-                int index = admins.indexOf(loginAttempt);
-                loggedInAdmin = admins.get(index);
-                System.out.println("Login successful. Welcome, " + loggedInAdmin.getName());
-                admin();
-            } else {
-                System.out.println(loginAttempt);
-                System.out.println("Invalid username or password. Please try again.");
-                adminLogin();
+            for(Admin admin: admins){
+                if (admin.getUsername().equals(loginAttempt.getUsername()) && admin.getPassword().equals(loginAttempt.getPassword())) {
+                    loggedInAdmin = admin;
+                    System.out.println("Login successful. Welcome, " + loggedInAdmin.getName());
+                    admin();
+                } else {
+                    System.out.println(loginAttempt);
+                    System.out.println("Invalid username or password. Please try again.");
+                    adminLogin();
+                }
             }
+
         } catch (NullPointerException e) {
             System.out.println("There are no admins registered.");
         }
