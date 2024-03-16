@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 public class AdminList {
 
-    private List<Admin> admins = new ArrayList<>();
+    private List<Admin> admins;
     private Gson gson;
     private Scanner scanner = new Scanner(System.in);
     public List<Admin> getAdmins() {
@@ -28,6 +28,8 @@ public class AdminList {
         admins = adminFromJson();
         if(admins == null){
             admins = new ArrayList<>();
+            Admin newAdmin = new Admin("Sacha M", "admin1", "Adminpass1");
+            admins.add(newAdmin);
         }
     }
 
@@ -70,9 +72,6 @@ public class AdminList {
     }
 
     protected List<Admin> adminFromJson() {
-        Admin newAdmin = new Admin("Sacha M", "admin1", "Adminpass1");
-        admins.add(newAdmin);
-        saveToJsonFile("data/admin.json");
         File file = new File("C:\\Users\\winni\\Development\\nology\\projects\\java-library-app\\src\\main\\java\\org\\example\\data\\admin.json");
 
         if(file.exists()){

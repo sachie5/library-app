@@ -12,12 +12,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Library {
-    private JsonLibrary jsonLibrary = new JsonLibrary();
+    private final JsonLibrary jsonLibrary = new JsonLibrary();
     private MemberList memberList = new MemberList();
     private AdminList adminList = new AdminList();
     private LoanedBooksList loanedBooksList = new LoanedBooksList();
-    private Commands commands = new Commands();
-    private static Scanner scanner = new Scanner(System.in);
+    private final Commands commands = new Commands();
+    private static final Scanner scanner = new Scanner(System.in);
     private List <Member> members = memberList.getMembers();
     private List<Book> loanedBooks = loanedBooksList.getLoanedBooks();
     private List <Admin> admins = adminList.getAdmins();
@@ -134,7 +134,7 @@ public class Library {
 
 
     public void findBooks(){
-        System.out.println("Please enter the title of the book you would like to borrow.");
+        System.out.println("Please enter the id or title of the book you would like to borrow.");
         String userInput = scanner.next();
         chosenBook = books.stream().filter(book -> book.getTitle().equalsIgnoreCase(userInput) || book.getId() == Integer.parseInt(userInput)).collect(Collectors.toList());
         switch(typeOfVisitor){
@@ -142,6 +142,8 @@ public class Library {
                 readBook();
                 break;
             case "admin":
+                System.out.println(chosenBook);
+                checkIfOnLoan();
                 break;
             case "member":
                 System.out.println(chosenBook);
@@ -149,6 +151,15 @@ public class Library {
                 break;
         }
 
+    }
+
+    private void checkIfOnLoan() {
+        for(Book book: loanedBooks){
+            if(chosenBook.get(0).getTitle().equals(book.getTitle())){
+                System.out.println("This book is currently on loan.");
+            }
+        }
+        admin();
     }
 
     public void readBook(){
@@ -166,14 +177,14 @@ public class Library {
         System.out.println("Is this the book you would like to borrow? Y/N");
         String userInput = scanner.next();
         if(userInput.equalsIgnoreCase("y")){
-            if(!loggedInMember.getLoanedBooks().equals(chosenBook)){
+            if(!loggedInMember.getLoanedBooks().equals(chosenBook) && !loanedBooks.contains(chosenBook)){
                 System.out.println(chosenBook.get(0));
                 System.out.println(loggedInMember.getUsername());
                 memberList.saveLoanBookToJson(chosenBook.get(0), loggedInMember.getUsername());
                 loanedBooksList.saveLoanBookToJson(chosenBook.get(0));
                 member();
             } else {
-                System.out.println("Sorry. You already have this book.");
+                System.out.println("Sorry. You already have this book or this books is out on loan.");
                 findBooks();
             }
         } else if(userInput.equalsIgnoreCase("n")){
@@ -229,16 +240,15 @@ public class Library {
 
         try {
             for(Admin admin: admins){
-                if (admin.getUsername().equals(loginAttempt.getUsername()) && admin.getPassword().equals(loginAttempt.getPassword())) {
+                if (loginAttempt.getUsername().equals(admin.getUsername()) && loginAttempt.getPassword().equals(admin.getPassword())) {
                     loggedInAdmin = admin;
                     System.out.println("Login successful. Welcome, " + loggedInAdmin.getName());
                     admin();
-                } else {
-                    System.out.println(loginAttempt);
-                    System.out.println("Invalid username or password. Please try again.");
-                    adminLogin();
                 }
             }
+            System.out.println(loginAttempt);
+            System.out.println("Invalid username or password. Please try again.");
+            adminLogin();
 
         } catch (NullPointerException e) {
             System.out.println("There are no admins registered.");
