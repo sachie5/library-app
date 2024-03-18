@@ -22,5 +22,21 @@
     "genre": "tech",
     "subgenre": "data_science",
     "publisher": "Springer"
+  },
+  {
+    "id": 9,
+    "title": "Image Processing \u0026 Mathematical Morphology",
+    "author": "Shih, Frank",
+    "genre": "tech",
+    "subgenre": "signal_processing",
+    "publisher": "CRC"
+  },
+  {
+    "id": 4,
+    "title": "Superfreakonomics",
+    "author": "Dubner, Stephen",
+    "genre": "science",
+    "subgenre": "economics",
+    "publisher": "HarperCollins"
   }
 ]

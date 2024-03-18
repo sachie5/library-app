@@ -1,13 +1,18 @@
 package org.example.user;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.example.Book;
+import org.h2.engine.User;
 
 import java.util.List;
 import java.util.Objects;
 
-public class Member {
+public class Member  {
+
     String name;
+
     String username;
+
     String password;
 
     List<Book> loanedBooks;

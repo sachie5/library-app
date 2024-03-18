@@ -79,8 +79,7 @@ public class Book {
                 ", author: " + author +
                 ", genre: " + genre +
                 ", subgenre: " + subgenre +
-                ", publisher: " + publisher +
-                '}';
+                ", publisher: " + publisher;
     }
 
 }

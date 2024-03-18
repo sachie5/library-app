@@ -21,7 +21,7 @@ public class Library {
     private List <Member> members = memberList.getMembers();
     private List<Book> loanedBooks = loanedBooksList.getLoanedBooks();
     private List <Admin> admins = adminList.getAdmins();
-    private List<Book> chosenBook;
+    private Book chosenBook;
     private String typeOfVisitor;
     private Member loggedInMember;
     private Admin loggedInAdmin;
@@ -136,7 +136,7 @@ public class Library {
     public void findBooks(){
         System.out.println("Please enter the id or title of the book you would like to borrow.");
         String userInput = scanner.next();
-        chosenBook = books.stream().filter(book -> book.getTitle().equalsIgnoreCase(userInput) || book.getId() == Integer.parseInt(userInput)).collect(Collectors.toList());
+        chosenBook = books.stream().filter(book -> book.getTitle().equalsIgnoreCase(userInput) || book.getId() == Integer.parseInt(userInput)).collect(Collectors.toList()).get(0);
         switch(typeOfVisitor){
             case "visitor":
                 readBook();
@@ -155,7 +155,7 @@ public class Library {
 
     private void checkIfOnLoan() {
         for(Book book: loanedBooks){
-            if(chosenBook.get(0).getTitle().equals(book.getTitle())){
+            if(chosenBook.getTitle().equals(book.getTitle())){
                 System.out.println("This book is currently on loan.");
             }
         }
@@ -169,25 +169,23 @@ public class Library {
             System.out.println(chosenBook + "has been returned.");
             visitor();
         } else {
-            System.out.println();
+            System.out.println("Invalid input. Please try again.");
         }
     }
 
     public void loanBooks(){
         System.out.println("Is this the book you would like to borrow? Y/N");
         String userInput = scanner.next();
-        if(userInput.equalsIgnoreCase("y")){
-            if(!loggedInMember.getLoanedBooks().equals(chosenBook) && !loanedBooks.contains(chosenBook)){
-                System.out.println(chosenBook.get(0));
+        if(userInput.equalsIgnoreCase("y") && !loggedInMember.getLoanedBooks().contains(chosenBook) && !loanedBooks.contains(chosenBook)){
+                System.out.println(chosenBook);
                 System.out.println(loggedInMember.getUsername());
-                memberList.saveLoanBookToJson(chosenBook.get(0), loggedInMember.getUsername());
-                loanedBooksList.saveLoanBookToJson(chosenBook.get(0));
+                memberList.saveLoanBookToJson(chosenBook, loggedInMember.getUsername());
+                loanedBooksList.saveLoanBookToJson(chosenBook);
                 member();
-            } else {
+            } else if (userInput.equalsIgnoreCase("y") && (loggedInMember.getLoanedBooks().contains(chosenBook) || loanedBooks.contains(chosenBook))){
                 System.out.println("Sorry. You already have this book or this books is out on loan.");
                 findBooks();
-            }
-        } else if(userInput.equalsIgnoreCase("n")){
+            } else if (userInput.equalsIgnoreCase("n")){
             System.out.println("Would you like to read the book? Y/N");
             userInput = scanner.next();
             if(userInput.equalsIgnoreCase("y")){

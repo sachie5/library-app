@@ -1,9 +1,14 @@
 package org.example.user;
 
-public class Admin {
+import com.fasterxml.jackson.annotation.JsonProperty;
+import org.h2.engine.User;
+
+public class Admin  {
 
     String name;
+
     String username;
+
     String password;
 
     public String getName() {
