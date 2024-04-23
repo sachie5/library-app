@@ -2,6 +2,13 @@
 
 This project is a library management system built using Java. 
 
+<img width="500" height="300" alt="Screenshot 2024-04-23 113415" src="https://github.com/sachie5/library-app/assets/132303259/59ee88a6-f118-4faa-aead-4666602325d0">
+<img width="500" height="300" alt="open library" src="https://github.com/sachie5/library-app/assets/132303259/213f898d-b847-4230-a4d7-4c6918b2c7bf">
+
+## Dependencies
+
+Run this project in java.
+
 ## Table of Contents
 
 1.  About
@@ -27,6 +34,8 @@ A visitor is an unregistered user of the library. They can do three things:
 * Read a book at the library.
 * Become a member of the library.
 
+<img width="843" alt="Screenshot 2024-04-23 113607" src="https://github.com/sachie5/library-app/assets/132303259/db1d1361-b7fd-41ca-a9c8-8182f7b7b15e">
+
 ## 3. Member Functionality
 
 A member is a user of the library that has registered an account. A member can do what a visitor can as well as:
@@ -41,6 +50,8 @@ An admin would be the access of a memeber of staff at the library. An admin can 
 * Run a list of books listed in the library.
 * Run a report on the books currently on loan.
 * Add another admin member.
+
+
 
 
 
